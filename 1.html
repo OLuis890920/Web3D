@@ -1,36 +1,30 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
 <style>
-
 body {
   background-image: url('https://raw.githubusercontent.com/OLuis890920/Web3D/main/bigtree.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed; 
   background-position: center;
   background-size: 50% 80%;
-}
+  }
 .dot {
   height: 25px;
   width: 25px;
-  background-color: hsl(120, 50%, 50%);
+  background-color: hsl(100, 50%, 50%);
   border-radius: 50%;
   display: inline-block;
 }
 </style>
 </head>
-
 <body> 
-<CENTER><h1> Hw1 I4B25</h1></CENTER>
-
+<CENTER> <h1> 王昱進 I4B25 HW1</h1> </CENTER>
 <div id='bkgd'></div>
-
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
 <script>
-function getRandomInt(max) {
+function Random(max) {
+  
   return Math.floor(Math.random() * max);
 }
 class Lamp {
@@ -86,7 +80,7 @@ class Lamp {
     that.blind = setInterval(function() {
       
       
-      that.flash(getRandomInt(360));
+      that.flash(Random(360));
     }, that.sec);
     //clearInterval(that.blind);
   }
@@ -119,19 +113,20 @@ function hello() {
 var isA = false;
 var isB = false;
 
-function aaa() {
-   
-   for (let i = 0; i < amount ; i++) {
+function A() {
+   for (let i = 0; i < amount ; i++) 
+   {
       light[i].myStatus = ! light[i].myStatus;
+     
       if(isB){
           light[i].myStatus = ! light[i].myStatus;
           light[i].stopBlink();
-          light[i].sec = 500;
+          light[i].sec = 300;
           light[i].startBlink();
           isA = true;
       }
       else if(light[i].myStatus){
-          light[i].sec = 500;
+          light[i].sec = 300;
           light[i].startBlink();
           isA = true;
       }else{
@@ -145,8 +140,8 @@ function aaa() {
    isB = false;
    return;
 }
-function bbb() {
-   var seconds = getRandomInt(1000) + 1000;
+function B() {
+   var seconds = Random(1000) + 1000;
    
    for (let i = 0; i < amount ; i++) {
       light[i].myStatus = ! light[i].myStatus;
@@ -176,8 +171,7 @@ function bbb() {
 
 
 </script>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<CENTER> <button onclick="aaa()">0.5 seconds</button>  <button onclick="bbb()">Random</button></CENTER>
+<CENTER> <button onclick="A()">加快閃爍時間</button><hr><button onclick="B()">color 變換(隨機)</button></CENTER>
 
 
 
