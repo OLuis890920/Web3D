@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <CENTER><h1> HW3 I4B25</h1></CENTER>
+    <center><input type="number" id="light" value="0.5" step="0.1"></input> <input onclick="turnOn()" type="button" id="Power_On" value="Power On"></input></center>
+
+    <p align="center">
+        <script src="https://threejs.org/build/three.min.js"></script>
+        <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </p>
+    <script>
+var camera, scene, renderer;
+var pointLight;
+var angle = 0;
+var lights = [new THREE.PointLight(), new THREE.PointLight(), new THREE.PointLight(), new THREE.PointLight()];
+var midlelight = [new THREE.PointLight()];
+var isOn = false;
+
+var intensity = 0.5;
+
+init();
+animate();
+
+
+jQuery(function($) {
+  var answer = parseInt($('#light').val());
+  $('#light').on('input', function() {
+
+    intensity = parseFloat($('#light').val());
+    if(isOn){
+		for(var i = 0;i <=3;i++){
+			lights[i].intensity = intensity ;
+		}
+    }
+  });
+});
+
+function turnOn(){
+	if(!isOn){
+		for(var i = 0;i <=3;i++){
+			lights[i].intensity = intensity ;
+		}
+	}else{
+		for(var i = 0;i <=3;i++){
+			lights[i].intensity = 0;
+		}
+	}
+	isOn = !isOn;
+        var elem = document.getElementById("Power_On");
+        if (elem.value=="Power On") elem.value = "Power Off";
+        else elem.value = "Power On";
+  }
+
+function Table() {
+  var group = new THREE.Group();
+   var woodTex = new THREE.TextureLoader().load("https://i.imgur.com/dsJ5fIk.jpeg");//§÷½è
+  var mat = new THREE.MeshBasicMaterial({map:woodTex});
+  var boxTop = new THREE.Mesh (new THREE.BoxGeometry (120,10,120),mat);//®àªO
+    var boxLeg1 = new THREE.Mesh(new THREE.BoxGeometry(10, 20,10),mat);//®à¸}
+    var boxLeg2 = new THREE.Mesh(new THREE.BoxGeometry(10, 20, 10), mat);//®à¸}
+    var boxLeg3 = new THREE.Mesh(new THREE.BoxGeometry(10, 20, 10), mat);//®à¸}
+    var boxLeg4 = new THREE.Mesh(new THREE.BoxGeometry(10, 20, 10), mat);//®à¸}
+     boxTop.position.set (0,25,0);//¦ì¸m
+    boxLeg1.position.set(-55, 10, 55);//¦ì¸m
+    boxLeg2.position.set(-55, 10, -55);//¦ì¸m
+    boxLeg3.position.set(55, 10, -55);//¦ì¸m
+    boxLeg4.position.set(55, 10, 55);//¦ì¸m
+    group.add(boxTop, boxLeg1, boxLeg2, boxLeg3, boxLeg4);
+  return group;
+}
+function Chair() {
+  var group = new THREE.Group();
+  var chair = new THREE.Mesh(new THREE.BoxGeometry(100, 30, 50), new THREE.MeshPhongMaterial({ color: 'white' }));
+  var chair1 = new THREE.Mesh (new THREE.BoxGeometry (100,30,50),new THREE.MeshPhongMaterial({color:'white'}));
+  var chair2 = new THREE.Mesh(new THREE.BoxGeometry(100, 30, 50), new THREE.MeshPhongMaterial({ color: 'white' }));
+    var chair3 = new THREE.Mesh(new THREE.BoxGeometry(100, 30, 50), new THREE.MeshPhongMaterial({ color: 'white' }));
+    chair.position.set(200, 15, -200);
+    chair1.position.set(-200, 15, -200);
+    chair2.position.set(200, 15, 200);
+    chair3.position.set(-200, 15, 200);
+
+    group.add(chair, chair1, chair2,chair3);
+  return group;
+}
+
+function floor(){
+  var group = new THREE.Group();
+    var woodTex = new THREE.TextureLoader().load("https://i.imgur.com/pBcu4iE.jpeg");
+  var mat = new THREE.MeshBasicMaterial({map:woodTex});
+  var boxTop = new THREE.Mesh (new THREE.BoxGeometry (600,5,600),mat);
+  boxTop.position.set (0,0,0);
+
+  group.add (boxTop);
+  return group;
+}
+
+var controls = 0;
+
+function init() {
+
+  scene = new THREE.Scene();
+
+  renderer = new THREE.WebGLRenderer();
+
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+
+  renderer.setSize((width-25),(height-25)); // ´è¬V (2D¹Ïªº®Ø¬[)
+
+
+  renderer.setClearColor(0x888888); // ´è¬V­I´ºÃC¦â
+
+  document.body.appendChild(renderer.domElement);
+
+  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+
+  camera.position.x = 0;
+  camera.position.y = 600;
+  camera.position.z = 500;
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+    
+
+  var traverse = new THREE.BoxGeometry (600,100,10); // Àð¾À¤è¶ô
+  var straight = new THREE.BoxGeometry(10,100, 600); // Á¡Àð¾À
+    //¥|©PÀð¾À
+  var wall = new THREE.Mesh (traverse , new THREE.MeshPhongMaterial({color:'white'}));
+  wall.position.set(0,50,300);
+  var wall2 = new THREE.Mesh (straight, new THREE.MeshPhongMaterial({color:'white'}));
+  wall2.position.set(300,50,0);
+  var wall3 = new THREE.Mesh (traverse , new THREE.MeshPhongMaterial({color:'white'}));
+  wall3.position.set(0,50,-300);
+  var wall4 = new THREE.Mesh (straight, new THREE.MeshPhongMaterial({color:'white'}));
+  wall4.position.set(-300,50,0);
+
+  scene.add (wall,wall2,wall3,wall4);
+    // ¤ºÀð
+ 
+ 
+    var departw = new THREE.Mesh (new THREE.BoxGeometry (150,100,5) , new THREE.MeshPhongMaterial({color:'white'}));
+    departw.position.set(225,50,-100);
+    scene.add(departw);
+    var departw1 = new THREE.Mesh(new THREE.BoxGeometry(150, 100, 5), new THREE.MeshPhongMaterial({ color: 'white' }));
+    departw1.position.set(-225, 50, -100);
+    scene.add(departw1);
+    var departw2 = new THREE.Mesh(new THREE.BoxGeometry(150, 100, 5), new THREE.MeshPhongMaterial({ color: 'white' }));
+    departw2.position.set(-225, 50, 100);
+    scene.add(departw2);
+    var departw3 = new THREE.Mesh(new THREE.BoxGeometry(150, 100, 5), new THREE.MeshPhongMaterial({ color: 'white' }));
+    departw3.position.set(225, 50, -100);
+    scene.add(departw3);
+
+
+
+  var pointLight = new THREE.PointLight ();
+  pointLight.position.set (0,40,0);
+
+    //¥ú·½ÂI
+
+
+  lights[0].position.set (-175,80,200);
+  lights[1].position.set ( 175,80,200);
+    lights[2].position.set(175, 80, -200);
+    lights[3].position.set(-175, 80, -200);
+  lights[0].intensity = 0;
+  lights[1].intensity = 0;
+    lights[2].intensity = 0;
+    lights[3].intensity = 0;
+    midlelight[0].intensity = 0;
+  scene.add(lights[0], new THREE.PointLightHelper (lights[0], 4));
+
+  scene.add(lights[1], new THREE.PointLightHelper (lights[1], 4));
+
+  scene.add(lights[2], new THREE.PointLightHelper(lights[2], 4));
+
+    scene.add(lights[3], new THREE.PointLightHelper(lights[3], 4));
+
+    scene.add(midlelight[0], new THREE.PointLightHelper(midlelight[0], 4));
+  var midtable = Table();
+  var fourchair = Chair();
+  var fl = floor();
+  scene.add(midtable,fl,fourchair);
+
+
+}
+function animate() {
+
+            requestAnimationFrame(animate);
+            render();
+     }
+
+
+function render() { //´è¬V³õ´º
+
+  renderer.render(scene, camera);
+
+        }
+    </script>
+</body>
+
+
+</html>
